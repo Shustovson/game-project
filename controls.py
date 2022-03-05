@@ -1,6 +1,7 @@
 import pygame, sys
 from Menu_Buttons import Button
 
+
 def events():
     for event in pygame.event.get():  ###Получаем все события пользователя
         if event.type == pygame.QUIT:

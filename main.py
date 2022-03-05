@@ -17,7 +17,6 @@ def run():
         controls.update(bg_image, screen)  ###Отрисовка изображения
 
 
-
 run()
 
 
