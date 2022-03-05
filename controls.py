@@ -14,6 +14,3 @@ def events():
 def update(bg_image, screen):###Отрисовка всего экрана
 
     pygame.display.flip()  ###Прорисовка последнего экрана
-    start_button = pygame.draw.rect(screen, (255, 255, 255), (1600, 600, 180, 50));
-    continue_button = pygame.draw.rect(screen, (255, 255, 255), (1600,670, 180, 50));
-    quit_button = pygame.draw.rect(screen, (255, 255, 255), (1600, 740 , 180, 50));

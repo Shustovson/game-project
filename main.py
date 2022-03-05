@@ -1,4 +1,8 @@
 import pygame, controls
+
+import Menu_Buttons
+
+
 def run():
 
     pygame.init()
@@ -15,6 +19,7 @@ def run():
     while True:
         controls.events()  ###Прослушивание событий
         controls.update(bg_image, screen)  ###Отрисовка изображения
+        Menu_Buttons.MenuWindow(screen)
 
 
 run()

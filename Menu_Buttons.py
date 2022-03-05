@@ -19,7 +19,7 @@ class Button():
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 2)
 
         if self.text != '':
-            font = pygame.font.Font('Font\oneFont.ttf', 55)  # Размер шрифта
+            font = pygame.font.Font('Font\Defect.otf', 55)  # Размер шрифта
             text = font.render(self.text, 1, (255, 255, 255))  # Цвет букв в главном меню
             screen.blit(text, (
             self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
@@ -31,3 +31,8 @@ class Button():
                 return True
 
         return False
+
+def MenuWindow(screen):
+    #win.fill((0, 180, 210)) - одноцветный фон
+    Start_BT = Button((0, 255, 0), 900, 500, 400, 100, "Начать игру")
+    Start_BT.draw(screen, (0, 0, 0))
