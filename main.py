@@ -2,7 +2,6 @@ import pygame, controls
 
 import Menu_Buttons
 
-
 def run():
 
     pygame.init()
