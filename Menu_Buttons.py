@@ -32,6 +32,7 @@ class Button():
 
         return False
 
+
 def MenuWindow(screen):
     #win.fill((0, 180, 210)) - одноцветный фон
     Start_BT = Button((0, 255, 0), 1650, 100, 300, 150, "Начать игру")

@@ -16,6 +16,7 @@ def run():
     pygame.mixer.music.load("Music/Trec1.mp3")
     pygame.mixer.music.play(-1)
 
+
     while True:
         controls.events()  ###Прослушивание событий
         controls.update(bg_image, screen)  ###Отрисовка изображения

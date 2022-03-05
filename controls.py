@@ -11,6 +11,7 @@ def events():
             if event.key == pygame.K_ESCAPE:
                 sys.exit()
 
+
 def update(bg_image, screen):###Отрисовка всего экрана
 
     pygame.display.flip()  ###Прорисовка последнего экрана
