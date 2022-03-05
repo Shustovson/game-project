@@ -35,10 +35,10 @@ class Button():
 
 def MenuWindow(screen):
     #win.fill((0, 180, 210)) - одноцветный фон
-    Start_BT = Button((0, 255, 0), 1650, 100, 300, 150, "Начать игру")
-    Options_BT = Button((255, 255, 255), 1650, 200, 250, 100, "Опции")
-    Exit_BT = Button((255, 255, 255), 1650, 700, 250, 100, "Выход")
-    Achievements_BT = Button((255, 255, 255), 1650, 500, 250, 100, "Достижения")
+    Start_BT = Button((0, 255, 0), 1500, 500, 250, 70, "Начать игру")
+    Options_BT = Button((255, 255, 255), 1500, 600, 250, 70, "Опции")
+    Exit_BT = Button((255, 255, 255), 1500, 800, 250, 70, "Выход")
+    Achievements_BT = Button((255, 255, 255), 1500, 700, 250, 70, "Достижения")
     Start_BT.draw(screen, (0, 0, 0))
     Options_BT.draw(screen, (0, 0, 0))
     Exit_BT.draw(screen, (0, 0, 0))
