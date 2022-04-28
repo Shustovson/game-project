@@ -1,0 +1,8 @@
+WINDOW_SIZE = (640, 480)
+WIDTH = 640
+HEIGHT = 480
+FPS = 60
+BLACK = (0, 0, 0)
+RED = (0, 0, 255)
+WHITE = (200, 200, 200)
+
