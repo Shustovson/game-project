@@ -1,0 +1,14 @@
+player/idle/ 15;15;15;15 loop
+player/run/ 3;3;3;3;3;3;3;3;3;3 loop
+player/jump/ 7;7;7;7;7 loop
+background/idle/ 10;10;10;10;10;10;10;10 loop
+platform/idle/ 7 loop
+horizontal/idle/ 7 loop
+vertical/idle/ 7 loop
+static/idle/ 2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2;2 loop
+spikeTop/idle/ 7 loop
+throughMiddle/idle/ 7 loop
+throughLeft/idle/ 7 loop
+throughRight/idle/ 7 loop
+endBall/idle/ 3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;3 loop
+menuBackground/idle/ 9;9;9;9;9;9;9;9;9;9;9;9;9;9;9;9;9 loop

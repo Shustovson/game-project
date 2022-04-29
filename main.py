@@ -1,6 +1,5 @@
 import pygame
-
-import engine as e
+import data.engine as e
 from settings import *
 from menu import MainMenu
 
