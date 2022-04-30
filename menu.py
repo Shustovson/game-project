@@ -50,24 +50,36 @@ class MainMenu(MenuScreen):
     def __init__(self, screen, clock, smallFont, largeFont, background):
         super().__init__(screen, clock, smallFont, largeFont, background)
         self.options = OptionsMenu(self.screen, self.clock, self.smallFont, self.largeFont, 'menuBackground')
-        self.stateList = [True]
-        self.buttonList = []
-        self.title = ''
+        self.stateList = [True, False, False, False, False]
+        self.buttonList = ['Start', 'Continue', 'Options', 'About', 'Quit']
+        self.descriptions = [''] #Добовляем описание к кнопочке :D
+        self.title = 'SOMETHING COMMING...'
+        self.showFPS = True
+        self.screenshot = None
+        self.progress = False
 
-
-
-
-    # обновляем, если нажата клавиша
     def update(self):
+        pos = pygame.mouse.get_pos()
+        if pos[0] >= 44 and pos[0] <= 174:
+            if pos[1] >= 187 and pos[1] <= 216:
+                self.stateList = self.fillArray(self.stateList)
+                self.stateList[0] = True
         y = 180
         i = 0
         for state in self.stateList:
+            if state:
                 if i == 1:
                     if not self.progress:
-                        self.screen.blit(self.unavailableButton, (40, y))
+                        self.screen.blit(self.unavailableSelected, (40, y))
                     else:
-                        self.screen.blit(self.button, (40, y))
-                pygame.display.update()
+                        self.screen.blit(self.selectedButton, (40, y))
+                else:
+                    self.screen.blit(self.selectedButton, (40, y))
+                self.smallFont.render(self.screen, self.descriptions[i],
+                                      (200, y + 14), WHITE)
+
+        pygame.display.update()
+
 
 
 class VideoMenu(MenuScreen):
