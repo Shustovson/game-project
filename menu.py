@@ -77,7 +77,17 @@ class MainMenu(MenuScreen):
                     self.screen.blit(self.selectedButton, (40, y))
                 self.smallFont.render(self.screen, self.descriptions[i],
                                       (200, y + 14), WHITE)
+                self.smallFont.render(self.screen, self.buttonList[i],
+                                      (65, y + 14), WHITE)
+            else:
+                if i == 1:
+                    if not self.progress:
+                        self.screen.blit(self.unavailableButton, (40, y))
+                else:
+                    self.screen.blit(self.button, (40, y))
 
+            y += 43
+            i += 1
         pygame.display.update()
 
 
@@ -85,6 +95,7 @@ class MainMenu(MenuScreen):
 class VideoMenu(MenuScreen):
     def __init__(self):
         super().__init__()
+
 
 
 class OptionsMenu(MenuScreen):
@@ -131,7 +142,8 @@ class OptionsMenu(MenuScreen):
                         pass
                     elif pos[1] >= 271 and pos[1] <= 301:
                         self.running = False
-    # обновляем
+
+    # обновляем для мышки
     def update(self):
         pos = pygame.mouse.get_pos()
         if pos[0] >= 44 and pos[0] <= 174:
@@ -144,22 +156,3 @@ class OptionsMenu(MenuScreen):
             elif pos[1] >= 271 and pos[1] <= 301:
                 self.stateList = self.fillArray(self.stateList)
                 self.stateList[2] = True
-        y = 180
-        i = 0
-        for state in self.stateList:
-            if state:
-                self.screen.blit(self.selectedButton, (40, y))
-                self.smallFont.render(self.screen, self.descriptions[i],
-                                      (200, y + 12), WHITE)
-            else:
-                self.screen.blit(self.button, (40, y))
-            self.smallFont.render(self.screen, self.buttonList[i],
-                                  (65, y + 12), WHITE)
-            y += 43
-            i += 1
-        self.showFPS = self.video.showFPS
-        if self.showFPS:
-            fps = str(int(1.0 / (time.time() - self.start_time)))
-            self.smallFont.render(self.screen, fps, (WIDTH - 40, 20))
-        pygame.display.update()
-        self.clock.tick(FPS)
