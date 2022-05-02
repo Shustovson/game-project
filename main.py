@@ -15,11 +15,13 @@ class Core:
         self.smallFont = e.Font('data/images/small_font2.png')
         self.largeFont = e.Font('data/images/large_font.png')
         pygame.display.set_icon(icon)
+        pygame.display.set_caption('NOT A game')
         self.running = True
         self.showFPS = True
     # создаем окно
     def new(self):
         self.menu = MainMenu(self.screen,  self.clock, self.smallFont, self.largeFont, 'menuBackground')
+        self.run()
         self.run()
     # запускаем
     def run(self):
