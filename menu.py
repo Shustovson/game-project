@@ -1,4 +1,4 @@
-import pygame, sys, os, time, numpy
+import pygame, time
 import data.engine as e
 from settings import *
 from pygame.locals import *
@@ -127,117 +127,7 @@ class LevelsMenu(MenuScreen):
 
 
 
-class MainMenu(MenuScreen):
-    def __init__(self, screen, clock, smallFont, largeFont, background):
-        super().__init__(screen, clock, smallFont, largeFont, background)
-        self.options = OptionsMenu(self.screen, self.clock, self.smallFont, self.largeFont, 'menuBackground')
-        self.stateList = [True, False, False, False, False]
-        self.buttonList = ['Start', 'Continue', 'Options', 'About', 'Quit']
-        self.descriptions = ['Start new game',
-                             'Continue where you left',
-                             'Explore game options',
-                             'About this game',
-                             'Exit to desktop']
-        self.title = 'There is NO game here'
-        self.showFPS = True
-        self.screenshot = None
-        self.progress = False
 
-
-    # проверяе нажатие на кнопки
-    def events(self):
-        self.running = e.checkCloseButtons()
-        index = self.stateList.index(True)
-        for event in pygame.event.get():
-            self.running, self.fullscreen, self.screen = e.checkEvents(event, self.running, self.fullscreen, self.screen)
-            if event.type == KEYDOWN:
-                if event.key == K_RETURN:
-                    if index == 0:
-                        pass
-                    elif index == 1:
-                        if self.progress:
-                            self.game.start(self.showFPS)
-                    elif index == 2:
-                        self.options.start(self.showFPS)
-                    elif index == 3:
-                        pass
-                    elif index == 4:
-                        self.running = False
-                if event.key == K_DOWN:
-                    if index < len(self.stateList) - 1:
-                        self.stateList[index] = False
-                        self.stateList[index + 1] = True
-                if event.key == K_UP:
-                    if index != 0:
-                        self.stateList[index] = False
-                        self.stateList[index - 1] = True
-            if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
-                if pos[0] >= 44 and pos[0] <= 174:
-                    if pos[1] >= 187 and pos[1] <= 216:
-                        self.game.start(self.showFPS)
-                    elif pos[1] >= 228 and pos[1] <= 261:
-                        if self.progress:
-                            self.game.start(self.showFPS)
-                    elif pos[1] >= 271 and pos[1] <= 301:
-                        self.options.start(self.showFPS)
-                    elif pos[1] >= 314 and pos[1] <= 346:
-                        pass
-                    elif pos[1] >= 357 and pos[1] <= 386:
-                        self.running = False
-    # обновляем, если нажата клавиша
-    def update(self):
-        pos = pygame.mouse.get_pos()
-        if pos[0] >= 44 and pos[0] <= 174:
-            if pos[1] >= 187 and pos[1] <= 216:
-                self.stateList = self.fillArray(self.stateList)
-                self.stateList[0] = True
-            elif pos[1] >= 228 and pos[1] <= 261:
-                self.stateList = self.fillArray(self.stateList)
-                self.stateList[1] = True
-            elif pos[1] >= 271 and pos[1] <= 301:
-                self.stateList = self.fillArray(self.stateList)
-                self.stateList[2] = True
-            elif pos[1] >= 314 and pos[1] <= 346:
-                self.stateList = self.fillArray(self.stateList)
-                self.stateList[3] = True
-            elif pos[1] >= 357 and pos[1] <= 386:
-                self.stateList = self.fillArray(self.stateList)
-                self.stateList[4] = True
-        y = 180
-        i = 0
-        for state in self.stateList:
-            if state:
-                if i == 1:
-                    if not self.progress:
-                        self.screen.blit(self.unavailableSelected, (40, y))
-                    else:
-                        self.screen.blit(self.selectedButton, (40, y))
-                else:
-                    self.screen.blit(self.selectedButton, (40, y))
-                self.smallFont.render(self.screen, self.descriptions[i],
-                                      (200, y + 14), WHITE)
-                self.smallFont.render(self.screen, self.buttonList[i],
-                                     (65, y + 14), WHITE)
-            else:
-                if i == 1:
-                    if not self.progress:
-                        self.screen.blit(self.unavailableButton, (40, y))
-                    else:
-                        self.screen.blit(self.button, (40, y))
-                else:
-                    self.screen.blit(self.button, (40, y))
-                self.smallFont.render(self.screen, self.buttonList[i],
-                                        (65, y + 10), WHITE)
-            y += 43
-            i += 1
-        self.showFPS = self.options.showFPS
-        if self.showFPS:
-            fps = str(int(1.0 / (time.time() - self.start_time)))
-            self.smallFont.render(self.screen, fps, (WIDTH - 40, 20))
-        self.screenshot = self.screen.copy()
-        pygame.display.update()
-        self.clock.tick(FPS)
 
 
 class VideoMenu(MenuScreen):
