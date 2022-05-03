@@ -44,7 +44,6 @@ class MenuScreen:
 
 # меню видео опций
 class OptionsMenu(MenuScreen):
-    # инциализация
     def __init__(self, screen, clock, smallFont, largeFont, background):
         super().__init__(screen, clock, smallFont, largeFont, background)
         self.stateList = [True, False, False]
@@ -175,8 +174,7 @@ class VideoMenu(MenuScreen):
                         self.running = False
     # обновляем меню, если нажали куда-то
     def update(self):
-        pos = pygame.mouse.get_pos() # позиция мыши
-        # проверка на какую кнопку, позицию меню, нажали
+        pos = pygame.mouse.get_pos()
         if pos[0] >= 44 and pos[0] <= 174:
             if pos[1] >= 187 and pos[1] <= 216:
                 self.stateList = self.fillArray(self.stateList)
@@ -213,11 +211,10 @@ class VideoMenu(MenuScreen):
                                   (65, y + 12), WHITE)
             y += 43
             i += 1
-        # проверка если показывем фпс
         if self.showFPS:
             fps = str(int(1.0 / (time.time() - self.start_time)))
             self.smallFont.render(self.screen, fps, (WIDTH - 40, 20))
-        pygame.display.update() # обновляем экран
+        pygame.display.update()
         self.clock.tick(FPS)
 
 
