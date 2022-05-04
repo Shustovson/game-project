@@ -160,7 +160,7 @@ class MainMenu(MenuScreen):
         else:
             index = 0
         self.game = Game(self.screen, self.clock, self.smallFont, self.largeFont, index)
-        # print(index)
+
     # проверяе нажатие на кнопки
     def events(self):
         self.running = e.checkCloseButtons()

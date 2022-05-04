@@ -287,10 +287,10 @@ class entity(object):
         self.flip = False
         self.offset = [0,0]
         self.rotation = 0
-        self.type = e_type # used to determine animation set among other things
+        self.type = e_type
         self.action_timer = 0
         self.action = ''
-        self.set_action('idle') # overall action for the entity
+        self.set_action('idle')
         self.entity_data = {}
         self.alpha = None
 
