@@ -1,15 +1,77 @@
 import pygame, sys, os, time, numpy  # подключаю используемые библиотеки
 from settings import *
 import data.engine as e
-from  Player import  Player
+from Player import Player
 
+# класс карты
 class MapObject:
     # инициализация карты
     def __init__(self, screen, x, y, xSize, ySize, type):
         self.entity = e.entity(x, y, xSize, ySize, type)
         self.screen = screen
         self.type = type
+    # обновление карты при скролле и при обновлении кадров
+    def update(self, scroll):
+        self.entity.changeFrame(1)
+        self.entity.display(self.screen, scroll)
+ # класс двигающейся платформы
+class MovingPlatform(MapObject):
+    # опять инициализируем
+    def __init__(self, screen, x, y, xSize, ySize, type, maxAxis, speed):
+        super().__init__(screen, x, y, xSize, ySize, type)
+        self.movement = [x,y] # координаты платормы
+        self.forward = True # направлеие
+        self.speed = speed # скорость
+        if self.type == "horizontal": # определеяем где начало и конец в зависимости от типа
+            self.maxAxis = x + maxAxis
+            self.minAxis = x - maxAxis
+        else:
+            self.maxAxis = y + maxAxis
+            self.minAxis = y - maxAxis
+    # обновляем платформу
+    def update(self, scroll):
+        distance = 0
+        # если горизонтальна
+        if self.type == "horizontal":
+            if self.movement[0] >= self.maxAxis or self.movement[0] <= self.minAxis:
+                self.forward = not self.forward # меняем направление движения
+            if self.forward:
+                self.movement[0] += self.speed # двигаем платформу на единицу её скорости
+                distance = self.speed
+            else:
+                self.movement[0] -= self.speed # двигаем платформу обратно
+                distance = - self.speed
+        else:
+            if self.movement[1] >= self.maxAxis or self.movement[1] <= self.minAxis:
+                self.forward = not self.forward
+            if self.forward:
+                self.movement[1] += self.speed
+            else:
+                self.movement[1] -= self.speed
+        if self.entity.obj.x <= 0:
+            self.entity.obj.x = 0 # устанавливаем ноль, если платформа слишком быстро двигалась и ушла за ноль
+        self.entity.set_pos(self.movement[0], self.movement[1])
+        # обновляем кадры и рисуем
+        self.entity.changeFrame(1)
+        self.entity.display(self.screen, scroll)
 
+        return distance
+ # неподвижная платформа
+class StaticPlatform(MapObject):
+    # инициализация
+    def __init__(self, screen, x, y, xSize, ySize, type):
+        super().__init__(screen, x, y, xSize, ySize, type)
+        self.entity.obj.x = x
+        self.entity.obj.y = y
+    # обновление
+    def update(self, scroll):
+        self.entity.changeFrame(1)
+        self.entity.display(self.screen, scroll)
+
+        return MOVING_SPEED
+
+
+# задаем карту и изображения из которых она собирается
 class MapLevel:
     def __init__(self, screen, x, y, map, speed):
         self.screen = screen
@@ -75,7 +137,6 @@ class MapLevel:
         self.tile_rects = []
         self.jumpRects = []
         self.platRects = []
-
         # отрисовываем карту из файла карты, карта это текстовый файл, где каждый символ отвечает за определенную плитку
         y = 0
         for layer in self.gameMap:
@@ -83,7 +144,17 @@ class MapLevel:
             for tile in layer:
                 if x >= 0 and x <= WIDTH and y >= 0 and y <= HEIGHT:
                     if self.create:
-                        if tile == 'b':
+                        if tile == '1':
+                            plat = StaticPlatform(self.screen, x * TILE_SIZE, y * TILE_SIZE, 64, 32, 'static')
+                            self.movingList.append(plat)
+                        elif tile == '2':
+                            plat = MovingPlatform(self.screen, x * TILE_SIZE, y * TILE_SIZE, 64, 32, 'vertical', 90, 3)
+                            self.movingList.append(plat)
+                        elif tile == '3':
+                            plat = MovingPlatform(self.screen, x * TILE_SIZE, y * TILE_SIZE, 64, 32, 'horizontal', 90,
+                                                  3.5)
+                            self.movingList.append(plat)
+                        elif tile == 'b':
                             enemy = MapObject(self.screen, x * TILE_SIZE, y * TILE_SIZE + 16, 32, 16, 'spikeTop')
                             self.enemiesList.append(enemy)
                         elif tile == 'k':
@@ -142,6 +213,12 @@ class MapLevel:
     def update(self, dt):
         distance = 0
         levelIsOver = False
+        for platform in self.movingList:
+            distance = platform.update(self.scroll)
+        for platform in self.notCollisionable:
+            platform.update(self.scroll)
+        for enemy in self.enemiesList:
+            enemy.update(self.scroll)
         levelData = self.player.update(self.tile_rects, self.enemiesList, self.movingList, self.notCollisionable,
                                        self.screen, self.scroll, dt, distance)
         if levelData[0]:  # restart level
@@ -164,16 +241,3 @@ class MapLevel:
         self.player.airTimer = 0
         self.player.movement = [0, 0]
         self.player.entity.set_pos(pos[0], pos[1])
-
-class StaticPlatform(MapObject):
-    # инициализация
-    def __init__(self, screen, x, y, xSize, ySize, type):
-        super().__init__(screen, x, y, xSize, ySize, type)
-        self.entity.obj.x = x
-        self.entity.obj.y = y
-    # обновление
-    def update(self, scroll):
-        self.entity.changeFrame(1)
-        self.entity.display(self.screen, scroll)
-
-        return MOVING_SPEED
